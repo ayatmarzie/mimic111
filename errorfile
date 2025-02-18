@@ -61,3 +61,23 @@ Cell In[15], line 26
 
 ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (58976,) + inhomogeneous part.
 
+==============================================================================================================================================================================
+df["input_ids"] = df["input_ids"].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
+df["attention_mask"] = df["attention_mask"].apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
+
+# Find max length (or set a fixed length)
+max_len = max(df["input_ids"].apply(len))  # Get max sequence length
+print(f"Max sequence length: {max_len}")
+
+
+
+X_temporal = pad_sequences(df["input_ids"], maxlen=max_len, padding="post", dtype="float32")
+X_static = pad_sequences(df["attention_mask"], maxlen=max_len, padding="post", dtype="float32")
+
+# Convert labels to NumPy array
+y = np.array(df.iloc[:, label_index], dtype=np.float32)
+
+# Print shapes to verify
+print(f"X_temporal shape: {X_temporal.shape}")  # Expected: (num_samples, max_len)
+print(f"X_static shape: {X_static.shape}")  # Expected: (num_samples, max_len)
+print(f"y shape: {y.shape}")  # Expected: (num_samples,)
