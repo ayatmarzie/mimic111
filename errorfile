@@ -1,0 +1,24 @@
+ValueError                                Traceback (most recent call last)
+Cell In[10], line 29
+     27 # Train the model in batches
+     28 batch_size = 32
+---> 29 model.fit(
+     30     [X_temporal_train, X_static_train], y_train,
+     31     validation_data=([X_temporal_test, X_static_test], y_test),
+     32     epochs=20, batch_size=batch_size
+     33 )
+
+File C:\ProgramData\Anaconda3\envs\tran\lib\site-packages\keras\src\utils\traceback_utils.py:122, in filter_traceback.<locals>.error_handler(*args, **kwargs)
+    119     filtered_tb = _process_traceback_frames(e.__traceback__)
+    120     # To get the full stack trace, call:
+    121     # `keras.config.disable_traceback_filtering()`
+--> 122     raise e.with_traceback(filtered_tb) from None
+    123 finally:
+    124     del filtered_tb
+
+File C:\ProgramData\Anaconda3\envs\tran\lib\site-packages\optree\ops.py:766, in tree_map(func, tree, is_leaf, none_is_leaf, namespace, *rests)
+    764 leaves, treespec = _C.flatten(tree, is_leaf, none_is_leaf, namespace)
+    765 flat_args = [leaves] + [treespec.flatten_up_to(r) for r in rests]
+--> 766 return treespec.unflatten(map(func, *flat_args))
+
+ValueError: Invalid dtype: object
