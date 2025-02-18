@@ -30,3 +30,23 @@ import numpy as np
 X_temporal = np.array(X_temporal.tolist(), dtype=np.float32)  # Convert list to 3D NumPy array
 X_static = np.array(X_static.tolist(), dtype=np.float32)  # Convert static features to 2D NumPy array
 y = np.array(y.tolist(), dtype=np.float32)  # Convert labels to array
+========================================================================================================================================================================
+import ast
+import numpy as np
+
+# Function to safely convert string lists into actual lists
+def convert_str_to_list(col):
+    return col.apply(lambda x: ast.literal_eval(x) if isinstance(x, str) else x)
+
+# Apply conversion
+df["input_ids"] = convert_str_to_list(df["input_ids"])
+df["attention_mask"] = convert_str_to_list(df["attention_mask"])
+
+# Convert to NumPy arrays
+X_temporal = np.array(df["input_ids"].tolist(), dtype=np.float32)  # 2D or 3D array
+X_static = np.array(df["attention_mask"].tolist(), dtype=np.float32)  # 2D array
+
+# Print shape
+print(f"X_temporal shape: {X_temporal.shape}")  # Expected: (num_samples, time_steps)
+print(f"X_static shape: {X_static.shape}")  # Expected: (num_samples, num_static_features)
+
