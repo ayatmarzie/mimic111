@@ -185,3 +185,22 @@ plt.ylabel("True Positive Rate")
 plt.title("Binary ROC Curve")
 plt.legend(loc="lower right")
 plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+model.save("medical_lstm_model.h5")
