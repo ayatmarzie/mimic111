@@ -49,4 +49,15 @@ X_static = np.array(df["attention_mask"].tolist(), dtype=np.float32)  # 2D array
 # Print shape
 print(f"X_temporal shape: {X_temporal.shape}")  # Expected: (num_samples, time_steps)
 print(f"X_static shape: {X_static.shape}")  # Expected: (num_samples, num_static_features)
+===========================================================================================================================================================================
+---------------------------------------------------------------------------
+ValueError                                Traceback (most recent call last)
+Cell In[15], line 26
+     24 y=df.iloc[:,label_index].values
+     25 # Convert to NumPy arrays
+---> 26 X_temporal = np.array(df["input_ids"].tolist(), dtype=np.float32)  # 2D or 3D array
+     27 X_static = np.array(df["attention_mask"].tolist(), dtype=np.float32)  # 2D array
+     29 X_temporal = np.array(X_temporal.tolist(), dtype=np.float32)  # Convert list to 3D NumPy array
+
+ValueError: setting an array element with a sequence. The requested array has an inhomogeneous shape after 1 dimensions. The detected shape was (58976,) + inhomogeneous part.
 
