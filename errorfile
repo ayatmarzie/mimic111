@@ -144,3 +144,44 @@ File C:\ProgramData\Anaconda3\envs\tran\lib\site-packages\sklearn\metrics\_ranki
     821 y_true = column_or_1d(y_true)
 
 ValueError: multiclass format is not supported
+
+
+================================================================================================================================================================================from sklearn.metrics import roc_curve, auc
+import matplotlib.pyplot as plt
+from sklearn.preprocessing import label_binarize
+
+# Convert y_test_true to binary format (One-hot encoding)
+y_test_binarized = label_binarize(y_test_true, classes=[0, 1, 2])  # Adjust classes
+
+# Plot ROC Curve for each class
+plt.figure(figsize=(8, 6))
+for i in range(y_test_binarized.shape[1]):
+    fpr, tpr, _ = roc_curve(y_test_binarized[:, i], y_test_pred[:, i])  # Class i
+    roc_auc = auc(fpr, tpr)
+    plt.plot(fpr, tpr, label=f'Class {i} (AUC = {roc_auc:.2f})')
+
+# Finalize plot
+plt.plot([0, 1], [0, 1], 'k--')  # Random guess line
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("Multiclass ROC Curve")
+plt.legend(loc="lower right")
+plt.show()
+
+============================
+# Select probabilities of a single class (e.g., class 1)
+y_test_prob = y_test_pred[:, 1]  
+
+# Compute ROC Curve
+fpr, tpr, _ = roc_curve(y_test_true, y_test_prob, pos_label=1)
+roc_auc = auc(fpr, tpr)
+
+# Plot ROC Curve
+plt.figure(figsize=(8, 6))
+plt.plot(fpr, tpr, label=f'Class 1 (AUC = {roc_auc:.2f})')
+plt.plot([0, 1], [0, 1], 'k--')  # Random guess line
+plt.xlabel("False Positive Rate")
+plt.ylabel("True Positive Rate")
+plt.title("Binary ROC Curve")
+plt.legend(loc="lower right")
+plt.show()
