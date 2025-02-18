@@ -22,3 +22,11 @@ File C:\ProgramData\Anaconda3\envs\tran\lib\site-packages\optree\ops.py:766, in 
 --> 766 return treespec.unflatten(map(func, *flat_args))
 
 ValueError: Invalid dtype: object
+==============================================================================================================================================================================
+
+import numpy as np
+
+# Convert list-based columns into NumPy arrays
+X_temporal = np.array(X_temporal.tolist(), dtype=np.float32)  # Convert list to 3D NumPy array
+X_static = np.array(X_static.tolist(), dtype=np.float32)  # Convert static features to 2D NumPy array
+y = np.array(y.tolist(), dtype=np.float32)  # Convert labels to array
