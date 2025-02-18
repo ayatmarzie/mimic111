@@ -81,3 +81,66 @@ y = np.array(df.iloc[:, label_index], dtype=np.float32)
 print(f"X_temporal shape: {X_temporal.shape}")  # Expected: (num_samples, max_len)
 print(f"X_static shape: {X_static.shape}")  # Expected: (num_samples, max_len)
 print(f"y shape: {y.shape}")  # Expected: (num_samples,)
+
+
+
+============================================================================================================================================================
+ValueError                                Traceback (most recent call last)
+Cell In[21], line 37
+     35 # Compute ROC Curve
+     36 y_test_prob = y_test_pred[:, 1]  # Probabilities for class 1
+---> 37 fpr, tpr, _ = roc_curve(y_test_true, y_test_prob)
+     38 roc_auc = auc(fpr, tpr)
+     40 # Plot ROC Curve
+
+File C:\ProgramData\Anaconda3\envs\tran\lib\site-packages\sklearn\utils\_param_validation.py:216, in validate_params.<locals>.decorator.<locals>.wrapper(*args, **kwargs)
+    210 try:
+    211     with config_context(
+    212         skip_parameter_validation=(
+    213             prefer_skip_nested_validation or global_skip_validation
+    214         )
+    215     ):
+--> 216         return func(*args, **kwargs)
+    217 except InvalidParameterError as e:
+    218     # When the function is just a wrapper around an estimator, we allow
+    219     # the function to delegate validation to the estimator, but we replace
+    220     # the name of the estimator by the name of the function in the error
+    221     # message to avoid confusion.
+    222     msg = re.sub(
+    223         r"parameter of \w+ must be",
+    224         f"parameter of {func.__qualname__} must be",
+    225         str(e),
+    226     )
+
+File C:\ProgramData\Anaconda3\envs\tran\lib\site-packages\sklearn\metrics\_ranking.py:1150, in roc_curve(y_true, y_score, pos_label, sample_weight, drop_intermediate)
+   1046 @validate_params(
+   1047     {
+   1048         "y_true": ["array-like"],
+   (...)
+   1057     y_true, y_score, *, pos_label=None, sample_weight=None, drop_intermediate=True
+   1058 ):
+   1059     """Compute Receiver operating characteristic (ROC).
+   1060 
+   1061     Note: this implementation is restricted to the binary classification task.
+   (...)
+   1148     array([ inf, 0.8 , 0.4 , 0.35, 0.1 ])
+   1149     """
+-> 1150     fps, tps, thresholds = _binary_clf_curve(
+   1151         y_true, y_score, pos_label=pos_label, sample_weight=sample_weight
+   1152     )
+   1154     # Attempt to drop thresholds corresponding to points in between and
+   1155     # collinear with other points. These are always suboptimal and do not
+   1156     # appear on a plotted ROC curve (and thus do not affect the AUC).
+   (...)
+   1161     # but does not drop more complicated cases like fps = [1, 3, 7],
+   1162     # tps = [1, 2, 4]; there is no harm in keeping too many thresholds.
+   1163     if drop_intermediate and len(fps) > 2:
+
+File C:\ProgramData\Anaconda3\envs\tran\lib\site-packages\sklearn\metrics\_ranking.py:818, in _binary_clf_curve(y_true, y_score, pos_label, sample_weight)
+    816 y_type = type_of_target(y_true, input_name="y_true")
+    817 if not (y_type == "binary" or (y_type == "multiclass" and pos_label is not None)):
+--> 818     raise ValueError("{0} format is not supported".format(y_type))
+    820 check_consistent_length(y_true, y_score, sample_weight)
+    821 y_true = column_or_1d(y_true)
+
+ValueError: multiclass format is not supported
